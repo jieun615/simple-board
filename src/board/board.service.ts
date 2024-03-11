@@ -1,22 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBoardDto } from './dto/create-board.dto';
+import { UpdateBoardDto } from './dto/update-board.dto';
 
 @Injectable()
 export class BoardService {
   private boards = [
     {
-      title: 'Hello world',
-      content: 'Content 1',
+      name: 'Hello world',
+      contents: 'Content 1',
       id: 1,
     },
     {
-      title: 'Hello world!',
-      content: 'Content 2',
+      name: 'Hello world!',
+      contents: 'Content 2',
       id: 2,
     },
     {
-      title: 'Hello world!',
-      content: 'Content 3',
+      name: 'Hello world!',
+      contents: 'Content 3',
       id: 3,
     },
   ];
@@ -35,7 +36,7 @@ export class BoardService {
     return newBoard;
   }
 
-  update(id: number, data) {
+  update(id: number, data: UpdateBoardDto) {
     const index = this.getBoardId(id);
     if (index > -1) {
       this.boards[index] = {
