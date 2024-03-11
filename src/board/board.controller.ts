@@ -10,6 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { CreateBoardDto } from './dto/create-board.dto';
 
 @Controller('board')
 @ApiTags('Board')
@@ -27,7 +28,7 @@ export class BoardController {
   }
 
   @Post()
-  create(@Body() data) {
+  create(@Body() data: CreateBoardDto) {
     return this.boardService.create(data);
   }
 
