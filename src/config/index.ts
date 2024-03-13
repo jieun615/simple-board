@@ -5,5 +5,5 @@ export default ({} = {}) =>
   ConfigModule.forRoot({
     isGlobal: true,
     envFilePath: `.env.local`,
-    load: [configuration]
-});
+    load: [configuration],
+  });

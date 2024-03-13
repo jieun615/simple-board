@@ -19,7 +19,7 @@ export class AppController {
   @Get()
   getHello(@Ip() ip: string): string {
     //return this.appService.getHello();
-    this.configService.get<string>('ENVIRONMENT');
+    this.configService.get<string> ('ENVIRONMENT');
     throw new HttpException('NotFound', HttpStatus.NOT_FOUND);
   }
 
