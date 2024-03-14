@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hash, compare } from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
-import { jwt } from './jwt';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UserService {
@@ -24,6 +24,12 @@ export class UserService {
       username,
       name,
       password: encryptedPassword,
+    });
+  }
+
+  async getUserByUsername(username: string) {
+    return this.userRepository.findOneBy({
+      username,
     });
   }
 

@@ -5,26 +5,22 @@ import { LoginUserDto } from './dto/login-user.dto';
 
 @Controller('user')
 export class UserController {
-    constructor(
-        private readonly userService: UserService;
-    ) {}
+  constructor(private readonly userService: UserService) {}
 
-    @Post()
-    signup(@Body(new ValidationPipe()) data: CreateUserDto) {
-        return this.userService.createUser();
-    }
+  @Post()
+  signup(@Body(new ValidationPipe()) data: CreateUserDto) {
+    return this.userService.createUser(data);
+  }
 
-    @Post('login')
-    login(@Body(new ValidationPipe()) data: LoginUserDto) {
-        return this.userService.login(data);
-    }
+  @Post('login')
+  login(@Body(new ValidationPipe()) data: LoginUserDto) {
+    return this.userService.login(data);
+  }
 
-    me() {
+  me() {}
 
-    }
-
-    @Get()
-    getUser() {
-        return this.userService.getUser();
-    }
+  @Get()
+  getUser() {
+    return this.userService.getUser();
+  }
 }
