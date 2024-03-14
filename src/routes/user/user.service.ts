@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { hash, compare } from 'bcrypt';
 import { LoginUserDto } from './dto/login-user.dto';
+import { jwt } from './jwt';
 
 @Injectable()
 export class UserService {
@@ -30,16 +31,27 @@ export class UserService {
     const { username, password } = data;
 
     const user = await this.userRepository.findOneBy({
-        username,
+      username,
     });
 
     if (!user) throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND);
 
     const match = await compare(password, user.password);
 
-    if (!match) throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
+    if (!match)
+      throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
 
-    return user;
+    const payload = {
+      username,
+      name: user.name,
+    };
+
+    const accessToken = jwt.sign(payload, process.env.SECRET_KEY, {
+      expiresIn: '1h',
+    });
+    return {
+      accessToken,
+    };
   }
 
   async getUser() {
