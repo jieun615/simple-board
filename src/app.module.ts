@@ -6,6 +6,7 @@ import { LoggingMiddleware } from './middleware/logging.middleware';
 import ConfigModule from './config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'dotenv';
+import { UserModule } from './user/user.module';
 
 config({ path: '.env.local' });
 
@@ -23,6 +24,7 @@ config({ path: '.env.local' });
       synchronize: false,
     }),
     BoardModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
