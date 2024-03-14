@@ -51,7 +51,7 @@ export class BoardService {
   }
 
   create(data: CreateBoardDto) {
-    return this.boardRepository.save(board);
+    return this.boardRepository.save(data);
   }
 
   async update(id: number, data: UpdateBoardDto) {
@@ -66,15 +66,14 @@ export class BoardService {
     })
   }
 
-  delete(id: number) {
-    const index = this.getBoardId(id);
+  async delete(id: number) {
+    const board = await this.boardRepository.findOneBy({
+      id
+    });
 
-    if (index > -1) {
-      const deleteBoard = this.boards[index];
-      this.boards.splice(index, 1);
-      return deleteBoard;
-    }
-    return null;
+    if (!board) throw new HttpException('NotFound', HttpStatus.NOT_FOUND);
+
+    return this.boardRepository.remove(board);
   }
 
   getBoardId(id: number) {
