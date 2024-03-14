@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from 'src/entity/board.entity';
 import { User } from 'src/entity/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
-import { hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService {
@@ -23,6 +24,22 @@ export class UserService {
       name,
       password: encryptedPassword,
     });
+  }
+
+  async login(data: LoginUserDto) {
+    const { username, password } = data;
+
+    const user = await this.userRepository.findOneBy({
+        username,
+    });
+
+    if (!user) throw new HttpException('NOT_FOUND', HttpStatus.NOT_FOUND);
+
+    const match = await compare(password, user.password);
+
+    if (!match) throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
+
+    return user;
   }
 
   async getUser() {

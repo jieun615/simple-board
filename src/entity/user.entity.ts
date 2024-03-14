@@ -11,8 +11,8 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @ApiProperty({ description: '유저아이디' })
-  @Column({ select: false })
+  @ApiProperty({ description: '비밀번호' })
+  @Column()
   password: string;
 
   @ApiProperty({ description: '이름' })
