@@ -43,8 +43,8 @@ export class BoardService {
     if (!board) throw new HttpException('NotFound', HttpStatus.NOT_FOUND);
 
     this.boardRepository.update(id, {
-      ...data
-    })
+      ...data,
+    });
   }
 
   async delete(id: number) {
@@ -57,7 +57,7 @@ export class BoardService {
 
   async getBoardById(id: number) {
     return this.boardRepository.findOneBy({
-      id
+      id,
     });
   }
 }
